@@ -4,4 +4,5 @@ compatibility_date = "2022-09-01"
 node_compat = true
 
 account_id = "8259f9bfa45a74a587d6a90822de442d"
+route = { pattern = "mailgun-failed-webhook.galexia.agency", custom_domain = true }
 workers_dev = true

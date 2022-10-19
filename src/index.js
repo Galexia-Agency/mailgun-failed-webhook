@@ -9,6 +9,7 @@ export default {
     } catch(e) {
         return new Response("Bad request", { status: 405 })
     }
+    console.log(request.url)
     // Verify that the Mailgun Signature matches the one that they sent us
     const hmacDigest = hex.stringify(hmacSHA256(body.signature.timestamp + body.signature.token, env.MAILGUN_SIGNING_KEY))
     // Load Cloudflare Cache
@@ -22,7 +23,7 @@ export default {
             // Cache the signature so it can't be used again
             const response = new Response(hmacDigest)
             response.headers.append('Cache-Control', 's-maxage=3600')
-            await cache.put(cacheKey, response)
+            console.log(await cache.put(cacheKey, response))
             const mailOptions = {
                 from: `Galexia Mail Reporting <info@${env.DOMAIN}>`,
                 to: env.REPORTING_ADDRESS,
