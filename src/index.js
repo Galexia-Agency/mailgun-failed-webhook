@@ -3,15 +3,26 @@ import hex from 'crypto-js/enc-hex'
 
 export default {
   async fetch(request, env) {
+    let body
     try {
-        const body = await request.json()
+        body = await request.json()
     } catch(e) {
         return new Response("Bad request", { status: 405 })
     }
-    // Verify that the Mailgun Signature matches the one that they sent us and ensure the signature has not been used already
+    // Verify that the Mailgun Signature matches the one that they sent us
     const hmacDigest = hex.stringify(hmacSHA256(body.signature.timestamp + body.signature.token, env.MAILGUN_SIGNING_KEY))
-    if (hmacDigest === body.signature.signature) {
+    // Load Cloudflare Cache
+    const cache = caches.default
+    // Set Cache Key for this signature = https://worker.domain/signature
+    const cacheKey = request.url + hmacDigest
+    // Ensure the signature has not been used already
+    const alreadyUsedSignature = await cache.match(cacheKey)
+    if (hmacDigest === body.signature.signature && alreadyUsedSignature === undefined) {
         try {
+            // Cache the signature so it can't be used again
+            const response = new Response(hmacDigest)
+            response.headers.append('Cache-Control', 's-maxage=3600')
+            await cache.put(cacheKey, response)
             const mailOptions = {
                 from: `Galexia Mail Reporting <info@${env.DOMAIN}>`,
                 to: env.REPORTING_ADDRESS,
@@ -49,6 +60,7 @@ export default {
             }
             throw sendEmail
         } catch (e) {
+            console.error(e)
             return new Response("Could not send message", { status: 500 })
         }
     }
