@@ -6,3 +6,6 @@ node_compat = true
 account_id = "8259f9bfa45a74a587d6a90822de442d"
 route = { pattern = "mailgun-failed-webhook.galexia.agency", custom_domain = true }
 workers_dev = false
+
+[placement]
+mode = "smart"
