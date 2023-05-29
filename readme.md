@@ -4,7 +4,7 @@ This worker sends an email every time it receives a webhook from Mailgun indicat
 
 ## Set-up
 
-1. Add the following environment variables to Cloudflare:
+1. Add the following environment variables to Cloudflare by using `wrangler secret put`:
 
     ```
         DOMAIN=domain.com
