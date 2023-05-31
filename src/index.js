@@ -47,7 +47,7 @@ export default {
                     Has failed.
                     
                     The error message was:
-                    ${body['event-data']['delivery-status'].description}
+                    ${body['event-data']['delivery-status'].description || body['event-data']['delivery-status'].message}
                 `
             };
             // Convert the email JSON to FormData
