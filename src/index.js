@@ -35,19 +35,19 @@ export default {
                 to: env.REPORTING_ADDRESS,
                 subject: "New delivery failure in Mailgun",
                 text: `
-                    An email to:
-                    ${body['event-data'].recipient}
+An email to:
+${body['event-data'].recipient}
 
-                    From:
-                    ${body['event-data'].envelope.sender}
+From:
+${body['event-data'].envelope.sender}
 
-                    With a subject of:
-                    ${body['event-data'].message.headers.subject}
+With a subject of:
+${body['event-data'].message.headers.subject}
 
-                    Has failed.
-                    
-                    The error message was:
-                    ${body['event-data']['delivery-status'].description || body['event-data']['delivery-status'].message}
+Has failed.
+
+The error message was:
+${body['event-data']['delivery-status'].description || body['event-data']['delivery-status'].message}
                 `
             };
             // Convert the email JSON to FormData
