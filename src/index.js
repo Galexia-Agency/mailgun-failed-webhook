@@ -15,7 +15,7 @@ export default {
         // Load Cloudflare Cache
         const cache = caches.default
         // Set Cache Key for this signature = https://worker.domain/signature
-        const cacheKey = request.url + hmacDigest
+        const cacheKey = new URL(request.url) + hmacDigest
         // Ensure the signature has not been used already
         const alreadyUsedSignature = await cache.match(cacheKey)
         if (alreadyUsedSignature !== undefined) {
