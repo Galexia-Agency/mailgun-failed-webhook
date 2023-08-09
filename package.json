@@ -6,7 +6,6 @@
     "wrangler": "^3.0.0"
   },
   "private": true,
-  "type": "module",
   "scripts": {
     "start": "wrangler dev",
     "deploy": "wrangler publish"
