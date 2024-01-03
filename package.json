@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "devDependencies": {
     "crypto-js": "^4.1.1",
-    "wrangler": "^3.0.0"
+    "wrangler": "^3.19.0"
   },
   "private": true,
   "scripts": {
